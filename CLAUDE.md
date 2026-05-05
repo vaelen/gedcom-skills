@@ -1,6 +1,6 @@
 # CLAUDE.md — Working agreements for this repo
 
-This repo is a Claude Code plugin that ships three skills for working with GEDCOM genealogy files: **`read-gedcom`**, **`search-gedcom`**, **`update-gedcom`**. The actual parser, writer, and CLI tools live in a separate published package, [`gedcom-lite`](https://github.com/vaelen/gedcom-lite). Skills here are thin SKILL.md wrappers that tell Claude when to trigger and which `gedcom-{read,search,update}` console script to invoke.
+This repo is a Claude Code plugin that ships three skills for working with GEDCOM genealogy files: **`read-gedcom`**, **`search-gedcom`**, **`update-gedcom`**. The actual parser, writer, and CLI tools live in a separate Python package, [`gedcom-lite`](https://github.com/vaelen/gedcom-lite) (currently distributed via the GitHub repo; PyPI release pending). Skills here are thin SKILL.md wrappers that tell Claude when to trigger and which `gedcom-{read,search,update}` console script to invoke.
 
 Read this file before doing any work in the repo.
 
