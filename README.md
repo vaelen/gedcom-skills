@@ -76,4 +76,4 @@ For the full official test suite (UTF-16, ANSEL, extensions, escapes, voidptrs, 
 
 ## License
 
-This plugin's content (SKILL.md files, docs, README, CLAUDE.md) is MIT-licensed; see [`gedcom-lite/LICENSE`](https://github.com/vaelen/gedcom-lite/blob/main/LICENSE) for the same terms applied to the underlying package.
+MIT — Copyright © 2026 Andrew C. Young (andrew@vaelen.org). See [LICENSE](LICENSE) for the full text. The underlying [`gedcom-lite`](https://github.com/vaelen/gedcom-lite/blob/main/LICENSE) package is distributed under the same terms.
