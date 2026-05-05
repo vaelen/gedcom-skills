@@ -1,0 +1,18 @@
+# Python (in case any helper scripts get added later)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Tooling caches
+.uv-cache/
+.venv/
+.pytest_cache/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Claude Code user-local settings (project-level settings.json IS committed)
+.claude/settings.local.json
