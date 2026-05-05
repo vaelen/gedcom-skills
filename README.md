@@ -12,6 +12,19 @@ A Claude Code plugin that ships three skills for working with [GEDCOM](https://w
 
 For the operational details of each, read the skill's `SKILL.md`.
 
+## Install
+
+Inside Claude Code, add the marketplace and install the plugin:
+
+```text
+/plugin marketplace add vaelen/gedcom-skills
+/plugin install gedcom-skills@gedcom-skills
+```
+
+`/plugin marketplace add` accepts a `owner/repo` shorthand for GitHub or a full URL to any git host. After installation the three skills (`read-gedcom`, `search-gedcom`, `update-gedcom`) are available in every session.
+
+The skills shell out to the [`gedcom-lite`](https://github.com/vaelen/gedcom-lite) CLI via `uvx`, so [`uv`](https://docs.astral.sh/uv/) must be on your `PATH`. No separate `pip install` is needed — `uvx` fetches `gedcom-lite` on first use.
+
 ## Versions in scope
 
 | Version | Year | Why we support it |
