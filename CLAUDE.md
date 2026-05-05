@@ -1,6 +1,6 @@
 # CLAUDE.md — Working agreements for this repo
 
-This repo is a Claude Code plugin that ships three skills for working with GEDCOM genealogy files: **`read-gedcom`**, **`search-gedcom`**, **`update-gedcom`**. The actual parser, writer, and CLI tools live in a separate Python package, [`gedcom-lite`](https://github.com/vaelen/gedcom-lite) (currently distributed via the GitHub repo; PyPI release pending). Skills here are thin SKILL.md wrappers that tell Claude when to trigger and which `gedcom-{read,search,update}` console script to invoke.
+This repo is a Claude Code plugin that ships three skills for working with GEDCOM genealogy files: **`read-gedcom`**, **`search-gedcom`**, **`update-gedcom`**. The actual parser, writer, and CLI tools live in a separate Python package, [`gedcom-lite`](https://pypi.org/project/gedcom-lite/) (also on [GitHub](https://github.com/vaelen/gedcom-lite)). Skills here are thin SKILL.md wrappers that tell Claude when to trigger and which `gedcom-{read,search,update}` console script to invoke.
 
 Read this file before doing any work in the repo.
 
@@ -34,7 +34,7 @@ uvx --from gedcom-lite gedcom-update FILE [-o OUT | --in-place] SUBCOMMAND ...
 
 `uvx` (shipped with `uv`) caches an ephemeral environment with `gedcom-lite` installed. No prior `pip install` is required.
 
-Until `gedcom-lite` is published to PyPI, the SKILL.md files document a fallback form using a git URL:
+The SKILL.md files also document a fallback form for running unreleased changes directly from git — this should remain a *secondary* option, never the primary path:
 
 ```bash
 uvx --from "git+https://github.com/vaelen/gedcom-lite" gedcom-read FILE

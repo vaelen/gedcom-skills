@@ -45,12 +45,14 @@ There is no Python code in this repo. The parser, writer, ANSEL codec, CLI tools
 The skills invoke the published `gedcom-lite` CLI via `uvx` (which ships with [`uv`](https://docs.astral.sh/uv/)). `uvx` caches an ephemeral environment with the package installed, so no prior `pip install` is required:
 
 ```bash
-# Once gedcom-lite is on PyPI:
 uvx --from gedcom-lite gedcom-read   tree.ged
 uvx --from gedcom-lite gedcom-search tree.ged --person Smith
 uvx --from gedcom-lite gedcom-update tree.ged -o new.ged set-payload @I1@ NAME "Jane /Doe/"
+```
 
-# Pre-publish, from the git repo:
+To run unreleased changes from git instead of the PyPI release:
+
+```bash
 uvx --from "git+https://github.com/vaelen/gedcom-lite" gedcom-read tree.ged
 ```
 

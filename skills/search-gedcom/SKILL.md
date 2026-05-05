@@ -35,10 +35,12 @@ Output modifiers (`--json`, `--show-record`, `--count`, `--limit`) work in any m
 This skill is a thin wrapper around the `gedcom-search` console script published by [gedcom-lite](https://github.com/vaelen/gedcom-lite).
 
 ```bash
-# After publishing to PyPI:
 uvx --from gedcom-lite gedcom-search FILE [filters] [output options]
+```
 
-# Pre-publish, from the git repo:
+To run unreleased changes from git instead of the PyPI release:
+
+```bash
 uvx --from "git+https://github.com/vaelen/gedcom-lite" gedcom-search FILE [filters] [output options]
 ```
 

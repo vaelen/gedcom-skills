@@ -35,10 +35,12 @@ This skill is a thin wrapper around the `gedcom-read` console script published b
 The recommended invocation uses `uvx`, which installs the package into a cached ephemeral environment on first use — no global pip install required:
 
 ```bash
-# After publishing to PyPI:
 uvx --from gedcom-lite gedcom-read FILE [args]
+```
 
-# Pre-publish, from the git repo:
+To run unreleased changes from git instead of the PyPI release:
+
+```bash
 uvx --from "git+https://github.com/vaelen/gedcom-lite" gedcom-read FILE [args]
 ```
 

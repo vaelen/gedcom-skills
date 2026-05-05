@@ -38,10 +38,12 @@ Operations:
 This skill is a thin wrapper around the `gedcom-update` console script published by [gedcom-lite](https://github.com/vaelen/gedcom-lite). Global flags must come **before** the subcommand:
 
 ```bash
-# After publishing to PyPI:
 uvx --from gedcom-lite gedcom-update FILE [global-flags] SUBCOMMAND ...
+```
 
-# Pre-publish, from the git repo:
+To run unreleased changes from git instead of the PyPI release:
+
+```bash
 uvx --from "git+https://github.com/vaelen/gedcom-lite" gedcom-update FILE [global-flags] SUBCOMMAND ...
 ```
 
