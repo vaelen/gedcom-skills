@@ -9,7 +9,7 @@
       "name": "gedcom-skills",
       "source": "./",
       "description": "Read, search, and update GEDCOM genealogy files (5.5.1, 5.5.5, and FamilySearch GEDCOM 7.0+) with full round-trip fidelity. Wraps the gedcom-lite Python package.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Andrew C. Young",
         "email": "andrew@vaelen.org"
