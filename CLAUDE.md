@@ -70,6 +70,7 @@ If a user asks for behavior these guarantees don't cover (e.g., 5.5.1→7.0 conv
 - **Parser/CLI bug or missing feature** → file an issue / open a PR in `gedcom-lite`. Don't try to patch around it in a SKILL.md.
 - **Wrong wording in a SKILL.md** that misroutes user intent → edit the description's trigger phrases.
 - **New documentation** about GEDCOM itself → `docs/`. Each SKILL.md links there rather than duplicating spec material.
+- **Plugin version bump** → update **both** `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` in the same commit. The `version` field in `marketplace.json`'s `plugins[0]` entry must always match `plugin.json`. The marketplace registry reads its own copy, so a version change in only one file ships a stale value to users.
 
 ## House style
 
