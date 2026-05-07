@@ -1,6 +1,11 @@
 # CLAUDE.md — Working agreements for this repo
 
-This repo is a Claude Code plugin that ships three skills for working with GEDCOM genealogy files: **`read-gedcom`**, **`search-gedcom`**, **`update-gedcom`**. The actual parser, writer, and CLI tools live in a separate Python package, [`gedcom-lite`](https://pypi.org/project/gedcom-lite/) (also on [GitHub](https://github.com/vaelen/gedcom-lite)). Skills here are thin SKILL.md wrappers that tell Claude when to trigger and which `gedcom-{read,search,update}` console script to invoke.
+This repo is a Claude Code plugin that ships four skills for working with GEDCOM genealogy files: **`read-gedcom`**, **`search-gedcom`**, **`update-gedcom`**, and **`ancestor-report`**. The actual parser, writer, and CLI tools live in two separate Python packages:
+
+- [`gedcom-lite`](https://pypi.org/project/gedcom-lite/) ([GitHub](https://github.com/vaelen/gedcom-lite)) — parser/writer + the `gedcom-read`, `gedcom-search`, `gedcom-update` console scripts behind the first three skills.
+- [`gedcom-reports`](https://pypi.org/project/gedcom-reports/) ([GitHub](https://github.com/vaelen/gedcom-reports)) — the `gedcom-ancestor-report` console script behind `ancestor-report`. Depends on `gedcom-lite`.
+
+Skills here are thin SKILL.md wrappers that tell Claude when to trigger and which console script to invoke.
 
 Read this file before doing any work in the repo.
 
@@ -15,41 +20,45 @@ Read this file before doing any work in the repo.
 ├── skills/
 │   ├── read-gedcom/SKILL.md
 │   ├── search-gedcom/SKILL.md
-│   └── update-gedcom/SKILL.md
-├── docs/                  # GEDCOM-domain reference, used by all three skills
+│   ├── update-gedcom/SKILL.md
+│   └── ancestor-report/SKILL.md
+├── docs/                  # GEDCOM-domain reference, used by all four skills
 └── examples/              # small demo set (full fixture suite lives in gedcom-lite)
 ```
 
-There is **no Python code** in this repo. The library lives in `gedcom-lite`. If you find yourself wanting to write parsing code here, stop — fix or extend `gedcom-lite` instead, and let the SKILL.md continue to wrap its CLI.
+There is **no Python code** in this repo. The libraries live in `gedcom-lite` (parsing/writing) and `gedcom-reports` (report generation). If you find yourself wanting to write parsing code here, stop — fix or extend `gedcom-lite` instead. Likewise for report-shaping logic: extend `gedcom-reports`. SKILL.md files in this repo only ever wrap a published CLI.
 
 ## How the skills invoke the CLI
 
 The canonical, dependency-free invocation is via `uvx`:
 
 ```bash
-uvx --from gedcom-lite gedcom-read FILE
-uvx --from gedcom-lite gedcom-search FILE [filters]
-uvx --from gedcom-lite gedcom-update FILE [-o OUT | --in-place] SUBCOMMAND ...
+uvx --from gedcom-lite    gedcom-read            FILE
+uvx --from gedcom-lite    gedcom-search          FILE [filters]
+uvx --from gedcom-lite    gedcom-update          FILE [-o OUT | --in-place] SUBCOMMAND ...
+uvx --from gedcom-reports gedcom-ancestor-report FILE --root @I1@ [options]
 ```
 
-`uvx` (shipped with `uv`) caches an ephemeral environment with `gedcom-lite` installed. No prior `pip install` is required.
+`uvx` (shipped with `uv`) caches an ephemeral environment with the named package installed. No prior `pip install` is required.
 
 The SKILL.md files also document a fallback form for running unreleased changes directly from git — this should remain a *secondary* option, never the primary path:
 
 ```bash
-uvx --from "git+https://github.com/vaelen/gedcom-lite" gedcom-read FILE
+uvx --from "git+https://github.com/vaelen/gedcom-lite"    gedcom-read            FILE
+uvx --from "git+https://github.com/vaelen/gedcom-reports" gedcom-ancestor-report FILE --root @I1@
 ```
 
-If `gedcom-lite` is already installed system-wide (`pip install gedcom-lite`, `uv tool install gedcom-lite`), the bare `gedcom-read` / `gedcom-search` / `gedcom-update` commands work directly.
+If the packages are already installed system-wide (`pip install gedcom-lite gedcom-reports`, `uv tool install ...`), the bare `gedcom-read` / `gedcom-search` / `gedcom-update` / `gedcom-ancestor-report` commands work directly.
 
 ## SKILL.md authoring rules
 
-- Skill names are lower-kebab-case, verb-first: `read-gedcom`, `search-gedcom`, `update-gedcom`.
+- Skill names are lower-kebab-case, verb-first or noun-phrase: `read-gedcom`, `search-gedcom`, `update-gedcom`, `ancestor-report`.
 - The frontmatter `description` controls triggering. Follow the conventions in `superpowers:writing-skills`:
   - third-person, "Use when…" framing
   - list specific trigger phrases users actually say
   - keywords across all skills: `GEDCOM`, `.ged`, `.gdz`, `family tree`, `genealogy`, `INDI`, `FAM`
   - `search-gedcom` additionally lists `ancestor`, `ancestors`, `descendant`, `descendants`
+  - `ancestor-report` additionally lists `report`, `ancestry`, `immigrants`, `colonial`
   - **never** summarize the skill's workflow in the description
 - The body should explain when to use vs. not use, show the CLI shape, give worked examples, and link to the GEDCOM-domain docs in `docs/`.
 - Keep skill bodies short. The user can always run `gedcom-{tool} --help` for full flag detail.
@@ -67,7 +76,8 @@ If a user asks for behavior these guarantees don't cover (e.g., 5.5.1→7.0 conv
 
 ## When something needs to change
 
-- **Parser/CLI bug or missing feature** → file an issue / open a PR in `gedcom-lite`. Don't try to patch around it in a SKILL.md.
+- **Parser/CLI bug or missing feature** in `gedcom-read` / `gedcom-search` / `gedcom-update` → file an issue / open a PR in `gedcom-lite`. Don't try to patch around it in a SKILL.md.
+- **Report bug or missing feature** in `gedcom-ancestor-report` (or any future report CLI) → file an issue / open a PR in `gedcom-reports`. Same rule: don't patch around it here.
 - **Wrong wording in a SKILL.md** that misroutes user intent → edit the description's trigger phrases.
 - **New documentation** about GEDCOM itself → `docs/`. Each SKILL.md links there rather than duplicating spec material.
 - **Plugin version bump** → update **both** `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` in the same commit. The `version` field in `marketplace.json`'s `plugins[0]` entry must always match `plugin.json`. The marketplace registry reads its own copy, so a version change in only one file ships a stale value to users.
